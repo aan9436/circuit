@@ -11,6 +11,8 @@ class Element:
         self.belongs=None
         self.parent=None
         self.given=None
+        self.resistance=0
+        self.max_connect=1
     def update(self,status):
         self.given=status
         self.operation(status)
@@ -18,13 +20,16 @@ class Element:
     def give(self):
         if self.have:
             for i in self.have:
-                i.status = self.status
+                i.update(self.status)
     def operation(self):
         pass
     def add(self,ele):
-        ele.parent=self
-        ele.belongs=self.belongs
-        self.have.append(ele)
+        if len(self.have)<self.max_connect or self.max_connect==0:
+            ele.parent=self
+            ele.belongs=self.belongs
+            self.have.append(ele)
+        else:
+            raise ImportError("Element:Too much connecting.")
     def check(self):
         lst=self.have
         if lst:
@@ -63,3 +68,11 @@ class OnePoleSwitch(Element):
     def close(self):
         self.is_closed=True
         self.update(self.given)
+
+class Node(Element):
+    def __init__(self,name):
+        super().__init__(name,define.NODE)
+        self.name=name
+        self.max_connect=0
+    def operation(self,status):
+        self.status=status

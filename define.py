@@ -1,5 +1,5 @@
 #type
 SWITCH=0
 ELECTRICAL_APPLIANCES=1
-
+NODE=2
 #status
