@@ -13,6 +13,7 @@ class Element:
         self.given=None
         self.resistance=0
         self.max_connect=1
+        self.element=None
     def update(self,status):
         self.given=status
         self.operation(status)
@@ -42,6 +43,7 @@ class Light(Element):
     def __init__(self,name):
         super().__init__(name=name,tp=define.ELECTRICAL_APPLIANCES)
         self.is_broken=False
+        self.element ="light"
     def operation(self,status):
         if not self.is_broken:
             self.status=status
@@ -57,6 +59,7 @@ class OnePoleSwitch(Element):
     def __init__(self,name,):
         super().__init__(name=name,tp=define.SWITCH,)
         self.is_closed=False
+        self.element ="onePoleSwitch"
     def operation(self,status):
         if self.is_closed:
             self.status=status
@@ -74,5 +77,6 @@ class Node(Element):
         super().__init__(name,define.NODE)
         self.name=name
         self.max_connect=0
+        self.element ="node"
     def operation(self,status):
         self.status=status
