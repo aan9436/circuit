@@ -80,3 +80,15 @@ class Node(Element):
         self.element ="node"
     def operation(self,status):
         self.status=status
+
+class Motor(Light):
+    def __init__(self,name):
+        super().__init__(name)
+        self.type=define.MOTOR
+        self.element="motor"
+
+class Ring(Light):
+    def __init__(self,name):
+        super().__init__(name)
+        self.type=define.RING
+        self.element="ring"

@@ -69,7 +69,7 @@ class Circuit:
         return dic
     def draw(self):
         draw=Draw()
-        draw.series(self)
+        draw.to_draw(self)
         run()
 
 if __name__=="__main__":
