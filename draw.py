@@ -17,47 +17,42 @@ class Draw(arcade.Window):
     def on_draw(self):
         start_render()
         if self.dic:
+            # print(self.dic)
             r=self.dic["radius"]
             l1,l2,l3,l4=self.dic["lst"]
             x=600
             y=450
             for i in l1:
                 # print(i[1] + r, i[2])
-                draw_line(x, y, i[1] + r, i[2], color.BLACK, 1)
-                self.draw(r,i[0],i[1],i[2],i[3])
-
-                x=i[1]-r
-                break
+                draw_line(x, y, i[1] + r[0], i[2], color.BLACK, 1)
+                self.draw(r[0],i[0],i[1],i[2],i[3])
+                x=i[1]-r[0]
 
             draw_line(x, y, 200,450, color.BLACK, 1)
             x=200
             y=450
             for i in l2:
                 # print(i[1] + r, i[2])
-                draw_line(x, y, i[1], i[2]+r, color.BLACK, 1)
-                self.draw(r,i[0],i[1],i[2],i[3])
-                y=i[2]-r
-                break
-
+                draw_line(x, y, i[1], i[2]+r[1], color.BLACK, 1)
+                self.draw(r[1],i[0],i[1],i[2],i[3])
+                y=i[2]-r[1]
             draw_line(x, y,200,150, color.BLACK, 1)
             x=200
             y=150
             for i in l3:
                 # print(i[1] + r, i[2])
-                draw_line(x, y, i[1] - r, i[2], color.BLACK, 1)
-                self.draw(r,i[0],i[1],i[2],i[3])
-                x=i[1]+r
-                break
+                draw_line(x, y, i[1] - r[2], i[2], color.BLACK, 1)
+                self.draw(r[2],i[0],i[1],i[2],i[3])
+                x=i[1]+r[2]
 
             draw_line(x, y, 600, 150, color.BLACK, 1)
             x=600
             y=150
             for i in l4:
                 # print(i[1] + r, i[2])
-                draw_line(x, y, i[1], i[2]-r, color.BLACK, 1)
-                self.draw(r,i[0],i[1],i[2],i[3])
-                y=i[2]+r
-                break
+                draw_line(x, y, i[1], i[2]-r[3], color.BLACK, 1)
+                self.draw(r[3],i[0],i[1],i[2],i[3])
+                y=i[2]+r[3]
 
             draw_line(x, y, 600,450, color.BLACK, 1)
     def bg(self):
@@ -73,24 +68,41 @@ class Draw(arcade.Window):
         draw_line(x-0.2*r,y-r,x-0.2*r,y+r,color.BLACK,r//11)
         draw_line(x+0.2*r,y-0.6*r,x+0.2*r,y+0.6*r,color.BLACK,r//11)
         draw_line(x+0.2*r,y,x+r,y,color.BLACK,r//11)
-        draw_text(name,x+0.2*r,y+0.8*r,color.BLACK,1.5*r//len(name))
+        draw_text(name,x+0.2*r,y+0.8*r,color.BLACK,max(min(1.5*r//len(name),12),10))
     def draw_light(self,x,y,name,r):
+        # print(r)
         draw_circle_outline(x,y,r,color.BLACK,r//11)
         draw_line(x+r*0.6*math.sin(math.radians(-45)),y+r*0.6*math.cos(math.radians(-45)),x+r*0.6*math.sin(math.radians(135)),y+r*0.6*math.cos(math.radians(135)),color.BLACK,r//11)
         draw_line(x+r*0.6*math.sin(math.radians(45)),y+r*0.6*math.cos(math.radians(45)),x+r*0.6*math.sin(math.radians(-135)),y+r*0.6*math.cos(math.radians(-135)),color.BLACK,r//11)
-        draw_text(name,x+0.5*r,y+r,color.BLACK,1.5*r//max(len(name),3))
+        draw_text(name,x+0.5*r,y+r,color.BLACK,max(min(1.5*r//len(name),12),10))
+    def draw_onePoleSwitch(self,x,y,name,r,f):
+        if f:
+            draw_circle_outline(x,y,r*0.16,color.BLACK,r//11)
+            draw_line(x-r,y,x-0.08*r,y,color.BLACK,r//11)
+            draw_line(x+r*0.08*math.sin(math.radians(70)),y+r*0.08*math.cos(math.radians(70)),x+r*math.sin(math.radians(70)),y+r*math.cos(math.radians(70)),color.BLACK,r//11)
+            draw_line(x+r*0.8,y,x+r,y,color.BLACK,1)
+
+        draw_text(name,x+0.5*r,y+r,color.BLACK,max(min(1.5*r//len(name),12),10))
     def series(self):
         circuit = Circuit("main")  # 创建电路“main”
         s = OnePoleSwitch("s")  # 创建单刀开关“s”
         circuit.add(s)  # 把开关“s”添加到电路“main”下
         l = Light("L")  # 创建灯泡“L”
         s.add(l)  # 把灯泡“l1”添加到开关“l”下
+        l1 = Light("L1")  # 创建灯泡“L”
+        l.add(l1)  # 把灯泡“l1”添加到开关“l”下
+        l2 = Light("L2")  # 创建灯泡“L”
+        l1.add(l2)  # 把灯泡“l1”添加到开关“l”下
         self.dic=circuit.to_series()
+        # print(self.dic)
     def draw(self,r,n,x,y,name):
+        # print(n)
         if n=="power":
             self.draw_power(x,y,name,r)
         elif n=="light":
             self.draw_light(x,y,name,r)
+        elif n=="onePoleSwitch":
+            self.draw_onePoleSwitch(x,y,name,r,not x==200 or x==600)
         else:
             pass
 
