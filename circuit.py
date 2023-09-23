@@ -1,6 +1,7 @@
 from element import *
 import define
 import math
+from draw import *
 class Circuit:
     def __init__(self,name,voltage=4.5,resistance=1e-3):
         self.name=name
@@ -66,7 +67,10 @@ class Circuit:
             "lst":[l1,l2,l3,l4]
         }
         return dic
-
+    def draw(self):
+        draw=Draw()
+        draw.series(self)
+        run()
 
 if __name__=="__main__":
     circuit = Circuit("main")  # 创建电路“main”

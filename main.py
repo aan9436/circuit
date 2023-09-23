@@ -2,19 +2,28 @@ from circuit import *
 from element import *
 
 main=Circuit("main")#创建电路“main”
-s=OnePoleSwitch("s")#创建单刀开关“s”
-main.add(s)#把开关“s”添加到电路“main”下
-n=Node("n")#创建节点“n”
-s.add(n)#把节点“n”添加到开关“s”下
-l1=Light("l1")#创建灯泡“l1”
-n.add(l1)#把灯泡“l1”添加到开关“l”下
-l2=Light("l2")#创建灯泡“l2”
-n.add(l2)#把灯泡“l2”添加到开关“l”下
-main.turn_on()#开启电源
-s.close()#闭合开关“s”
-print(l1.status)#显示灯泡“l1”状态（工作）
-print(l2.status,end="\n\n")#显示灯泡“l2”状态（工作）
-l1.broken()#破坏灯泡“l1”
-print(l1.status)#显示灯泡“l1”状态（不工作）
-print(l2.status)#显示灯泡“l2”状态（工作）
-print(main.is_short())#检测是否短路（未短路）
+s=OnePoleSwitch("s")#开关“s”
+l1=Light("L1")#灯泡“L1”
+l2=Light("L2")#灯泡“L2”
+# l3=Light("L3")
+# l4=Light("L4")
+# l5=Light("L5")
+# l6=Light("L6")
+# l7=Light("L7")
+# l8=Light("L8")
+# l9=Light("L9")
+# l10=Light("L10")
+
+#添加从属关系
+main.add(s)
+s.add(l1)
+l1.add(l2)
+# l2.add(l3)
+# l3.add(l4)
+# l4.add(l5)
+# l5.add(l6)
+# l6.add(l7)
+# l7.add(l8)
+# l8.add(l9)
+# l9.add(l10)
+main.draw()

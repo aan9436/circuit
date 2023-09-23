@@ -12,7 +12,6 @@ class Draw(arcade.Window):
         super().__init__(w, h, "Circuit")
         self.setup()
     def setup(self):
-        self.series()
         set_background_color(color.WHITE)
     def on_draw(self):
         start_render()
@@ -81,18 +80,14 @@ class Draw(arcade.Window):
             draw_line(x-r,y,x-0.08*r,y,color.BLACK,r//11)
             draw_line(x+r*0.08*math.sin(math.radians(70)),y+r*0.08*math.cos(math.radians(70)),x+r*math.sin(math.radians(70)),y+r*math.cos(math.radians(70)),color.BLACK,r//11)
             draw_line(x+r*0.8,y,x+r,y,color.BLACK,1)
-
+        else:
+            draw_circle_outline(x,y,r*0.16,color.BLACK,r//11)
+            draw_line(x,y+r,x,y+0.08*r,color.BLACK,r//11)
+            draw_line(x+r*0.08*math.sin(math.radians(160)),y+r*0.08*math.cos(math.radians(160)),x+r*math.sin(math.radians(160)),y+r*math.cos(math.radians(160)),color.BLACK,r//11)
+            draw_line(x, y-0.8*r, x, y-r, color.BLACK, 1)
         draw_text(name,x+0.5*r,y+r,color.BLACK,max(min(1.5*r//len(name),12),10))
-    def series(self):
-        circuit = Circuit("main")  # 创建电路“main”
-        s = OnePoleSwitch("s")  # 创建单刀开关“s”
-        circuit.add(s)  # 把开关“s”添加到电路“main”下
-        l = Light("L")  # 创建灯泡“L”
-        s.add(l)  # 把灯泡“l1”添加到开关“l”下
-        l1 = Light("L1")  # 创建灯泡“L”
-        l.add(l1)  # 把灯泡“l1”添加到开关“l”下
-        l2 = Light("L2")  # 创建灯泡“L”
-        l1.add(l2)  # 把灯泡“l1”添加到开关“l”下
+    def series(self,circuit):
+
         self.dic=circuit.to_series()
         # print(self.dic)
     def draw(self,r,n,x,y,name):
